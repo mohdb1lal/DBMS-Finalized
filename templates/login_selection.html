@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Sofia"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Selection</title>
+    <style>
+      body {
+        font-family: "Sofia", sans-serif;
+        text-shadow: 3px 3px 3px #ababab;
+        background: url("/static/abstract-nature-design-with-wave-pattern-backdrop-generative-ai.jpg")
+          no-repeat center center fixed;
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .container {
+        max-width: 800px;
+        width: auto;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.8
+        ); /* Semi-transparent white background for the container */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        text-align: center;
+      }
+
+      h2 {
+        color: #2f2d2d; /* Stylish pink color */
+        margin-bottom: 10px;
+        font-size: 1.8em; /* Larger font size */
+        letter-spacing: 2px; /* Added letter spacing */
+      }
+
+      p {
+        margin-bottom: 20px;
+        font-size: 1.5em; /* Larger font size */
+        color: #555; /* Darker gray text color */
+      }
+
+      form {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .button {
+        position: relative;
+        display: inline-block;
+        margin: 20px;
+      }
+
+      .button button {
+        color: #fff;
+        font-family: "Lobster", sans-serif; /* Stylish Lobster font */
+        font-weight: bold;
+        font-size: 1.5em; /* Larger font size */
+        text-align: center;
+        text-decoration: none;
+        background-color: #000000; /* Bright blue color */
+        display: block;
+        position: relative;
+        padding: 20px 40px;
+
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        text-shadow: 0px 1px 0px #333;
+        filter: dropshadow(color=#333, offx=0px, offy=1px);
+
+        -webkit-box-shadow: inset 0 1px 0 #d9d9d9, 0 10px 0 #003366;
+        -moz-box-shadow: inset 0 1px 0 #d9d9d9, 0 10px 0 #003366;
+        box-shadow: inset 0 1px 0 #d9d9d9, 0 10px 0 #003366;
+
+        -webkit-border-radius: 8px; /* Rounded corners */
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+      }
+
+      .button button:active {
+        top: 10px;
+        background-color: #005580; /* Darker blue color */
+
+        -webkit-box-shadow: inset 0 1px 0 #d9d9d9, inset 0 -3px 0 #003366;
+        -moz-box-shadow: inset 0 1px 0 #d9d9d9, inset 0 -3pxpx 0 #003366;
+        box-shadow: inset 0 1px 0 #d9d9d9, inset 0 -3px 0 #003366;
+      }
+
+      .button:after {
+        content: "";
+        height: 100%;
+        width: 100%;
+        padding: 4px;
+        position: absolute;
+        bottom: -15px;
+        left: -4px;
+        z-index: -1;
+        background-color: #003366; /* Darker blue color */
+        -webkit-border-radius: 8px; /* Rounded corners */
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+      }
+
+      button {
+        background-color: #ff3366; /* Stylish pink color */
+        color: #fff;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1.2em;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      button:hover {
+        background-color: #fefefe; /* Darker pink color on hover */
+        color: black;
+        transform: scale(1.05);
+      }
+      #gif-container {
+        overflow: hidden;
+        border-radius: 50%; /* Circular container */
+        margin-bottom: 0px;
+      }
+
+      #img111 {
+        width: 100%;
+        max-width: 400px; /* Adjust the maximum width as needed */
+        height: auto;
+        border-radius: 50%; /* Circular image */
+        margin-bottom: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="gif-container">
+        <img
+          id="img111"
+          src="/static/output-onlinegiftools.gif"
+          alt="Welcome Gif"
+        />
+      </div>
+      <h2>Welcome to BookShelf</h2>
+      <p>Please select your role:</p>
+      <form action="/redirect_login" method="POST">
+        <div ontouchstart="">
+          <div class="button">
+            <button type="submit" name="role" value="admin">Admin</button>
+          </div>
+        </div>
+        <div ontouchstart="">
+          <div class="button">
+            <button type="submit" name="role" value="customer">Customer</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

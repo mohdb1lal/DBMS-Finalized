@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Placed Orders</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #ecf0f1;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .container {
+        background-color: #fff;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #e74c3c;
+        border-bottom: 2px solid #e74c3c;
+        padding-bottom: 10px;
+      }
+
+      p {
+        font-weight: bold;
+        color: #333;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #e74c3c;
+        color: #fff;
+      }
+
+      td {
+        background-color: #f9f9f9;
+      }
+
+      a {
+        color: #fff;
+        background-color: #e74c3c;
+        padding: 12px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+      }
+
+      a:hover {
+        background-color: #c0392b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Placed Orders Details</h2>
+      <p>View details of all placed orders.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Customer Name</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td rowspan="{{ order.order_details|length + 1 }}">
+              {{ order.customer_name }}
+            </td>
+          </tr>
+          {% for item in order.order_details %}
+          <tr>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.quantity }}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td colspan="2" style="text-align: right; font-weight: bold">
+              Total Checkout Price:
+            </td>
+            <td>{{ order.total_checkout_price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <a href="{{ url_for('admin_home') }}">Go Back to Admin Home</a>
+    </div>
+  </body>
+</html>

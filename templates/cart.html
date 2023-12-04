@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 20px;
+        background-color: #f8f9fa; /* Light Gray */
+        color: #333; /* Dark Gray */
+        font-size: 16px;
+      }
+
+      h2 {
+        color: #e44d26; /* Red */
+        border-bottom: 2px solid #d43f1a; /* Red */
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 32px;
+      }
+
+      #cart-items-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 20px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Subtle box-shadow effect */
+        background-color: #fff; /* White */
+        border-radius: 8px;
+        overflow: hidden;
+        transition: box-shadow 0.3s;
+      }
+
+      #cart-items-table th,
+      #cart-items-table td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #d6d6d6; /* Light grey */
+      }
+
+      #cart-items-table th {
+        background-color: #e44d26; /* Red */
+        color: #fff;
+      }
+
+      .cart-item {
+        transition: background-color 0.3s;
+      }
+
+      .cart-item:hover {
+        background-color: #f9f9f9;
+      }
+
+      .product-name {
+        font-weight: bold;
+        color: #000; /* Black */
+        font-size: 18px;
+      }
+
+      .quantity,
+      .price,
+      .total-price {
+        color: #6c757d; /* Grey */
+        font-size: 16px;
+      }
+
+      .remove-from-cart,
+      button,
+      #go-back-btn {
+        background-color: #d9534f; /* Red */
+        color: #fff;
+        border: none;
+        padding: 15px 20px; /* More padding */
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 18px;
+        border-radius: 8px; /* Rounder corners */
+        width: auto; /* Adjust width */
+        display: inline-block;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .remove-from-cart:hover,
+      button:hover,
+      #go-back-btn:hover {
+        background-color: #c9302c; /* Darker shade of red */
+        transform: scale(1.1);
+      }
+
+      #checkout-price {
+        color: #e44d26; /* Red */
+        font-weight: bold;
+        font-size: 20px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>Shopping Cart</h2>
+    <button id="go-back-btn" onclick="goBack()">
+      Go Back to Customer Home
+    </button>
+    <table id="cart-items-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if cart_items %} {% for item in cart_items %}
+        <tr
+          class="cart-item"
+          data-product-name="{{ item.product_name }}"
+          data-item-id="{{ item._id }}"
+        >
+          <td class="product-name">
+            {{ item.product_name if 'product_name' in item else 'Product Not
+            Found' }}
+          </td>
+          <td class="price">₹{{ item.price }}</td>
+          <td class="quantity">{{ item.quantity }}</td>
+          <td class="total-price">₹{{ item.price * item.quantity }}</td>
+          <td>
+            <button
+              class="remove-from-cart"
+              onclick="removeFromCart('{{ item._id }}')"
+            >
+              Remove
+            </button>
+          </td>
+        </tr>
+        {% endfor %} {% else %}
+        <tr>
+          <td colspan="5" style="text-align: center">No products in cart</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+
+    <p id="checkout-price">
+      Total Checkout Price: ₹<span id="checkout-amount">0.00</span>
+    </p>
+
+    <button type="button" onclick="checkout()">Checkout</button>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $(".remove-from-cart").on("click", function () {
+          var listItem = $(this).closest("tr");
+          var productId = listItem.data("item-id");
+
+          $.ajax({
+            type: "POST",
+            url: "/remove_from_cart",
+            data: { product_id: productId },
+            success: function (data) {
+              // Refresh the page or update the cart UI as needed
+              location.reload();
+            },
+          });
+        });
+      });
+
+      function removeFromCart(productId) {
+        $.ajax({
+          type: "POST",
+          url: "/decrement_or_remove_from_cart",
+          data: { product_id: productId },
+          success: function (data) {
+            // Refresh the page or update the cart UI as needed
+            location.reload();
+          },
+        });
+      }
+
+      function goBack() {
+        window.location.href = "/customer_home";
+      }
+
+      function updateTotalCheckoutPrice() {
+        // Retrieve the cart items from the cart table
+        var cartItems = [];
+        $("#cart-items-table tbody .cart-item").each(function () {
+          var productName = $(this).data("product-name");
+          var quantity = parseInt($(this).find(".quantity").text());
+          var price = parseFloat(
+            $(this).find(".price").text().replace("₹", "")
+          );
+          cartItems.push({
+            product_name: productName,
+            quantity: quantity,
+            price: price,
+          });
+        });
+
+        // Calculate the total checkout price
+        var totalCheckoutPrice = cartItems.reduce(function (total, item) {
+          return total + item.quantity * item.price;
+        }, 0);
+
+        // Display the total checkout price
+        $("#checkout-price").text("₹" + totalCheckoutPrice.toFixed(2));
+      }
+
+      function checkout() {
+        // Retrieve the cart items from the cart table
+        var cartItems = [];
+        $("#cart-items-table tbody .cart-item").each(function () {
+          var productName = $(this).data("product-name");
+          var quantity = parseInt($(this).find(".quantity").text());
+          var price = parseFloat(
+            $(this).find(".price").text().replace("₹", "")
+          );
+          cartItems.push({
+            product_name: productName,
+            quantity: quantity,
+            price: price,
+          });
+        });
+
+        // Calculate the total checkout price
+        var totalCheckoutPrice = cartItems.reduce(function (total, item) {
+          return total + item.quantity * item.price;
+        }, 0);
+
+        // Display the total checkout price
+        $("#checkout-price").text("₹" + totalCheckoutPrice.toFixed(2));
+
+        // Send an AJAX request to the checkout endpoint
+        $.ajax({
+          type: "POST",
+          url: "/checkout",
+          contentType: "application/json",
+          data: JSON.stringify({ order_details: cartItems }),
+          success: function (data) {
+            // Handle success, e.g., show a success message
+            alert(data.message);
+            // Redirect to customer home or any other page as needed
+            window.location.href = "/customer_home";
+          },
+          error: function (error) {
+            // Handle error, e.g., show an error message
+            alert("Error during checkout. Please try again.");
+          },
+        });
+      }
+
+      // Update the total checkout price when the page loads
+      updateTotalCheckoutPrice();
+    </script>
+  </body>
+</html>

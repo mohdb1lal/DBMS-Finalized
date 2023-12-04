@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Home</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        color: #333;
+      }
+
+      #button-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        background-color: #d9534f; /* Red */
+        color: #fff;
+      }
+
+      form {
+        margin: 0;
+      }
+
+      h2,
+      p {
+        margin: 20px 0;
+        color: #ffffff; /* Red */
+      }
+
+      #product-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Center the items */
+        margin: 20px;
+      }
+
+      .product {
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 250px;
+        height: auto;
+        cursor: pointer;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+
+      .product h3 {
+        color: #333;
+        margin: 15px 0;
+        font-size: 20px;
+      }
+
+      .product p {
+        color: #777;
+        margin: 5px 0;
+      }
+
+      .product img {
+        max-width: 100%;
+        max-height: 200px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-bottom: 10px;
+      }
+
+      .product:hover {
+        transform: scale(1.05);
+      }
+
+      .add-to-cart {
+        background-color: #d9534f; /* Red */
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: auto; /* Align at the bottom */
+        transition: background-color 0.3s;
+      }
+
+      .add-to-cart:hover {
+        background-color: #b52b27; /* Darker red */
+      }
+
+      #footer {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="button-container">
+      <form action="/view_cart" method="GET">
+        <input type="submit" value="View Cart" />
+      </form>
+
+      <h2>BookShelf</h2>
+
+      <form action="/logout" method="POST">
+        <input type="submit" value="Logout" />
+      </form>
+    </div>
+
+    <p>Customer Dashboard</p>
+
+    <div id="product-container">
+      {% for product in products %}
+      <div class="product">
+        <img src="{{ product.image }}" alt="{{ product.name }}" />
+        <h3>{{ product.name }}</h3>
+        <p>Price: &#x20B9;{{ product.price }}</p>
+        <button
+          class="add-to-cart"
+          data-product-name="{{ product.name }}"
+          data-product-price="{{ product.price }}"
+        >
+          Add to Cart
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div id="footer">www.bookshelf.com</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+      $(".add-to-cart").on("click", function (event) {
+        event.preventDefault();
+        var productName = $(this).data("product-name");
+        var productPrice = $(this).data("product-price");
+        console.log("Adding to cart:", productName, productPrice);
+
+        $.ajax({
+          type: "POST",
+          url: "/add_to_cart",
+          data: { product_name: productName, product_price: productPrice },
+          success: function (data) {
+            alert("Product added to cart!");
+          },
+          error: function (error) {
+            console.error("Error adding to cart:", error);
+          },
+        });
+      });
+      // Function to toggle the visibility of the footer based on scroll position
+      function toggleFooterVisibility() {
+        var scrollPosition = window.scrollY;
+        var windowHeight = window.innerHeight;
+        var documentHeight = document.body.offsetHeight;
+
+        // Check if the user has reached the bottom of the page
+        if (scrollPosition + windowHeight >= documentHeight) {
+          $("#footer").slideDown();
+        } else {
+          $("#footer").slideUp();
+        }
+      }
+
+      // Attach the toggle function to the scroll event
+      $(window).scroll(function () {
+        toggleFooterVisibility();
+      });
+
+      // Initial check for visibility on page load
+      toggleFooterVisibility();
+    </script>
+  </body>
+</html>

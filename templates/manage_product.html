@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Products</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 80%;
+        margin: 20px auto;
+        padding: 40px;
+        border: 1px solid #d9534f;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #d9534f;
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #d9534f;
+        padding: 12px;
+        text-align: center; /* Center-align table cells */
+      }
+
+      th {
+        background-color: #d9534f;
+        color: #ffffff;
+        font-weight: bold;
+      }
+
+      img {
+        max-width: 100px;
+        max-height: 100px;
+        display: block;
+        margin: 0 auto;
+      }
+
+      form {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+      }
+
+      input[type="text"],
+      input[type="number"] {
+        width: auto;
+        margin-right: 10px;
+        padding: 10px;
+        border: 1px solid #d9534f;
+        border-radius: 3px;
+        flex-grow: 1;
+      }
+
+      input[type="submit"] {
+        background-color: #d9534f;
+        color: #ffffff;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      a {
+        display: block;
+        margin-top: 20px;
+        color: #d9534f;
+        text-decoration: none;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      form[action="/logout"] {
+        text-align: right;
+      }
+
+      form[action="/logout"] input[type="submit"] {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>
+        Manage Products
+        <form action="/logout" method="POST">
+          <input type="submit" value="Logout" />
+        </form>
+      </h2>
+      <table>
+        <tr>
+          <th>Product Name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+          <form method="POST">
+            <input type="hidden" name="product_id" value="{{ product._id }}" />
+
+            <td>
+              <input
+                type="text"
+                name="updated_product_name"
+                value="{{ product.name }}"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                name="updated_quantity"
+                value="{{ product.quantity }}"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                name="updated_price"
+                value="{{ product.price }}"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                name="updated_category"
+                value="{{ product.category }}"
+              />
+            </td>
+            <td>
+              <img src="{{ product.image }}" alt="{{ product.name }}" />
+            </td>
+            <td>
+              <button type="submit" name="action" value="update">Update</button>
+              <button type="submit" name="action" value="delete">Delete</button>
+            </td>
+          </form>
+        </tr>
+        {% endfor %}
+      </table>
+      <a href="/admin_home">Back to Admin Home</a>
+    </div>
+  </body>
+</html>

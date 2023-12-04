@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Details</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: url("/static/99836.jpg") center center/cover no-repeat;
+        position: relative;
+      }
+
+      .customer-container {
+        width: 400px;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.919);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease-in-out;
+        z-index: 1; /* Ensure the container is above the overlay */
+      }
+
+      .customer-container:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      h3 {
+        color: #d9534f;
+        border-bottom: 2px solid #d9534f;
+        padding-bottom: 10px;
+        text-align: center;
+        margin-bottom: 15px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        margin: 10px 0;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease-in-out,
+          transform 0.2s ease-in-out;
+      }
+
+      li:hover {
+        background-color: #f2f2f2;
+        transform: scale(1.02);
+      }
+      .back-button {
+        display: block;
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #d9534f;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .back-button:hover {
+        background-color: #c9302c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="overlay"></div>
+    <div class="customer-container">
+      <h3>Customer Details</h3>
+      <ul>
+        {% for user in users %} {% if user.role == 'customer' %}
+        <li>{{ user.username }}</li>
+        {% endif %} {% endfor %}
+      </ul>
+      <a class="back-button" href="{{ url_for('admin_home') }}"
+        >Back to Admin Home</a
+      >
+    </div>
+  </body>
+</html>
