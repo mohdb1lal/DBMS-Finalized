@@ -107,5 +107,5 @@ bson==0.5.10
 
 ---
 
-With these files, you can easily set up the MongoDB server and Python environment for the Flask application. Let me know if you'd like any changes!!
+With these files, you can easily set up the MongoDB server and Python environment for the Flask application. Let me know if you'd like any changes!
 ```
