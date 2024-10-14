@@ -306,10 +306,16 @@ def view_cart():
         return redirect(url_for('login'))
 
     username = session['username']
+    
+    # Fetch the cart items for the current user
     cart_items = cart_collection.find({"username": username})
+    
+    # Use count_documents to get the count of items in the cart
+    cart_items_count = cart_collection.count_documents({"username": username})
 
-    return render_template('cart.html', cart_items=cart_items)
-# ... (existing code)
+    # Pass both cart_items and cart_items_count to the template
+    return render_template('cart.html', cart_items=cart_items, cart_items_count=cart_items_count)
+
 
 
 @app.route('/checkout', methods=['POST'])

@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart</title>
     <style>
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         margin: 20px;
-        background-color: #f8f9fa; /* Light Gray */
-        color: #333; /* Dark Gray */
+        background-color: #f8f9fa;
+        color: #333;
         font-size: 16px;
       }
 
       h2 {
-        color: #e44d26; /* Red */
-        border-bottom: 2px solid #d43f1a; /* Red */
+        color: #e44d26;
+        border-bottom: 2px solid #d43f1a;
         padding-bottom: 10px;
         margin-bottom: 20px;
         font-size: 32px;
@@ -23,8 +26,8 @@
         border-collapse: separate;
         border-spacing: 0;
         margin-top: 20px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Subtle box-shadow effect */
-        background-color: #fff; /* White */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
         border-radius: 8px;
         overflow: hidden;
         transition: box-shadow 0.3s;
@@ -34,11 +37,11 @@
       #cart-items-table td {
         padding: 15px;
         text-align: left;
-        border-bottom: 1px solid #d6d6d6; /* Light grey */
+        border-bottom: 1px solid #d6d6d6;
       }
 
       #cart-items-table th {
-        background-color: #e44d26; /* Red */
+        background-color: #e44d26;
         color: #fff;
       }
 
@@ -52,29 +55,29 @@
 
       .product-name {
         font-weight: bold;
-        color: #000; /* Black */
+        color: #000;
         font-size: 18px;
       }
 
       .quantity,
       .price,
       .total-price {
-        color: #6c757d; /* Grey */
+        color: #6c757d;
         font-size: 16px;
       }
 
       .remove-from-cart,
       button,
       #go-back-btn {
-        background-color: #d9534f; /* Red */
+        background-color: #d9534f;
         color: #fff;
         border: none;
-        padding: 15px 20px; /* More padding */
+        padding: 15px 20px;
         cursor: pointer;
         transition: background-color 0.3s, transform 0.3s;
         font-size: 18px;
-        border-radius: 8px; /* Rounder corners */
-        width: auto; /* Adjust width */
+        border-radius: 8px;
+        width: auto;
         display: inline-block;
         text-align: center;
         margin-top: 20px;
@@ -83,24 +86,53 @@
       .remove-from-cart:hover,
       button:hover,
       #go-back-btn:hover {
-        background-color: #c9302c; /* Darker shade of red */
+        background-color: #c9302c;
         transform: scale(1.1);
       }
 
       #checkout-price {
-        color: #e44d26; /* Red */
+        color: #e44d26;
         font-weight: bold;
         font-size: 20px;
         margin-top: 20px;
       }
+
+      #empty-cart-message {
+        text-align: center;
+        font-size: 24px;
+        color: #6c757d;
+        margin-top: 50px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      #browse-products-btn {
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        padding: 15px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 18px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+
+      #browse-products-btn:hover {
+        background-color: #218838;
+        transform: scale(1.1);
+      }
     </style>
   </head>
-
   <body>
     <h2>Shopping Cart</h2>
     <button id="go-back-btn" onclick="goBack()">
       Go Back to Customer Home
     </button>
+
+    {% if cart_items_count > 0 %}
     <table id="cart-items-table">
       <thead>
         <tr>
@@ -112,7 +144,7 @@
         </tr>
       </thead>
       <tbody>
-        {% if cart_items %} {% for item in cart_items %}
+        {% for item in cart_items %}
         <tr
           class="cart-item"
           data-product-name="{{ item.product_name }}"
@@ -134,11 +166,7 @@
             </button>
           </td>
         </tr>
-        {% endfor %} {% else %}
-        <tr>
-          <td colspan="5" style="text-align: center">No products in cart</td>
-        </tr>
-        {% endif %}
+        {% endfor %}
       </tbody>
     </table>
 
@@ -147,9 +175,16 @@
     </p>
 
     <button type="button" onclick="checkout()">Checkout</button>
+    {% else %}
+    <div id="empty-cart-message">
+      <p>Your cart is empty. Start shopping to add items!</p>
+      <button id="browse-products-btn" onclick="goToProductList()">
+        Browse Products
+      </button>
+    </div>
+    {% endif %}
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
     <script>
       $(document).ready(function () {
         $(".remove-from-cart").on("click", function () {
@@ -161,11 +196,12 @@
             url: "/remove_from_cart",
             data: { product_id: productId },
             success: function (data) {
-              // Refresh the page or update the cart UI as needed
               location.reload();
             },
           });
         });
+
+        updateTotalCheckoutPrice();
       });
 
       function removeFromCart(productId) {
@@ -174,7 +210,6 @@
           url: "/decrement_or_remove_from_cart",
           data: { product_id: productId },
           success: function (data) {
-            // Refresh the page or update the cart UI as needed
             location.reload();
           },
         });
@@ -184,8 +219,11 @@
         window.location.href = "/customer_home";
       }
 
+      function goToProductList() {
+        window.location.href = "/customer_home";
+      }
+
       function updateTotalCheckoutPrice() {
-        // Retrieve the cart items from the cart table
         var cartItems = [];
         $("#cart-items-table tbody .cart-item").each(function () {
           var productName = $(this).data("product-name");
@@ -200,17 +238,14 @@
           });
         });
 
-        // Calculate the total checkout price
         var totalCheckoutPrice = cartItems.reduce(function (total, item) {
           return total + item.quantity * item.price;
         }, 0);
 
-        // Display the total checkout price
-        $("#checkout-price").text("₹" + totalCheckoutPrice.toFixed(2));
+        $("#checkout-amount").text(totalCheckoutPrice.toFixed(2));
       }
 
       function checkout() {
-        // Retrieve the cart items from the cart table
         var cartItems = [];
         $("#cart-items-table tbody .cart-item").each(function () {
           var productName = $(this).data("product-name");
@@ -225,35 +260,26 @@
           });
         });
 
-        // Calculate the total checkout price
         var totalCheckoutPrice = cartItems.reduce(function (total, item) {
           return total + item.quantity * item.price;
         }, 0);
 
-        // Display the total checkout price
-        $("#checkout-price").text("₹" + totalCheckoutPrice.toFixed(2));
+        $("#checkout-amount").text(totalCheckoutPrice.toFixed(2));
 
-        // Send an AJAX request to the checkout endpoint
         $.ajax({
           type: "POST",
           url: "/checkout",
           contentType: "application/json",
           data: JSON.stringify({ order_details: cartItems }),
           success: function (data) {
-            // Handle success, e.g., show a success message
             alert(data.message);
-            // Redirect to customer home or any other page as needed
             window.location.href = "/customer_home";
           },
           error: function (error) {
-            // Handle error, e.g., show an error message
             alert("Error during checkout. Please try again.");
           },
         });
       }
-
-      // Update the total checkout price when the page loads
-      updateTotalCheckoutPrice();
     </script>
   </body>
 </html>
