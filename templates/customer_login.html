@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Customer Login</title>
     <style>
       body {
         background: url("static/99836.jpg") center/cover no-repeat;
@@ -101,11 +101,11 @@
           placeholder="Password"
           required
         />
+        <input type="hidden" name="role" value="customer" />
+        <input type="submit" value="Login" />
         <div class="login-links">
           <a href="{{ url_for('signup_customer') }}">Sign Up</a>
         </div>
-        <input type="hidden" name="role" value="customer" />
-        <input type="submit" value="Login" />
       </form>
     </div>
   </body>
