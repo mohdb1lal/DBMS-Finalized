@@ -5,36 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <style>
-      /* General Styling */
       body {
         background: url("static/99836.jpg") center/cover no-repeat;
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        background-color: #f0f0f0;
         margin: 0;
         font-family: Arial, sans-serif;
       }
-
-      /* Container for the entire login box */
       .login-container {
         position: relative;
         padding: 40px;
         border-radius: 10px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(10px); /* Blurred background effect */
-        background-color: rgba(255, 255, 255, 0.5); /* Slight white overlay */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.5);
         max-width: 400px;
         width: 100%;
       }
-
-      /* Profile or company name heading */
       .login-header {
         text-align: center;
         margin-bottom: 20px;
       }
-
       .login-header img {
         width: 100px;
         height: 100px;
@@ -42,62 +35,46 @@
         object-fit: cover;
         margin-bottom: 10px;
       }
-
       .login-header h2 {
         font-size: 1.5em;
         color: #333;
       }
-
-      /* Form and input styling */
       .login-form {
         display: flex;
         flex-direction: column;
         gap: 15px;
       }
-
       .login-form input {
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 4px;
         background-color: rgba(255, 255, 255, 0.8);
       }
-
       .login-form input[type="submit"] {
         background-color: #007bff;
         color: white;
         cursor: pointer;
         border: none;
       }
-
       .login-form input[type="submit"]:hover {
         background-color: #0056b3;
       }
-
-      /* Links */
       .login-links {
         display: flex;
         justify-content: space-between;
       }
-
       .login-links a {
         text-decoration: none;
         color: #007bff;
       }
-
       .login-links a:hover {
         text-decoration: underline;
       }
-
-      /* Background image behind the form */
       .form-background {
-        /* background: url("static/99836.jpg") center/cover no-repeat; */
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1; /* Places it behind the form */
-        opacity: 0.1; /* Faint background image */
+        inset: 0;
+        z-index: -1;
+        opacity: 0.1;
         border-radius: 10px;
       }
     </style>
@@ -105,7 +82,6 @@
   <body>
     <div class="login-container">
       <div class="form-background"></div>
-      <!-- Background image behind the form -->
       <div class="login-header">
         <img src="/static/images/cat.png" alt="Profile Picture" />
         <h2>Welcome, Please Login</h2>
