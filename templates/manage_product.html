@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manage Products</title>
+    <title>Manage Books</title>
     <style>
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -17,17 +17,34 @@
         max-width: 80%;
         margin: 20px auto;
         padding: 40px;
-        border: 1px solid #d9534f;
+        border: 1px solid #2596be;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
 
       h2 {
-        color: #d9534f;
+        color: #2596be;
         margin-top: 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+      }
+
+      .nav {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .nav a {
+        color: #2596be;
+        text-decoration: none;
+        font-weight: bold;
+        margin: 0 10px;
+      }
+
+      .nav a:hover {
+        text-decoration: underline;
       }
 
       table {
@@ -38,13 +55,13 @@
 
       th,
       td {
-        border: 1px solid #d9534f;
+        border: 1px solid #2596be;
         padding: 12px;
-        text-align: center; /* Center-align table cells */
+        text-align: center;
       }
 
       th {
-        background-color: #d9534f;
+        background-color: #2596be;
         color: #ffffff;
         font-weight: bold;
       }
@@ -67,13 +84,14 @@
         width: auto;
         margin-right: 10px;
         padding: 10px;
-        border: 1px solid #d9534f;
+        border: 1px solid #2596be;
         border-radius: 3px;
         flex-grow: 1;
       }
 
-      input[type="submit"] {
-        background-color: #d9534f;
+      input[type="submit"],
+      button {
+        background-color: #2596be;
         color: #ffffff;
         border: none;
         padding: 12px 20px;
@@ -81,10 +99,14 @@
         cursor: pointer;
       }
 
+      button {
+        margin: 0 5px;
+      }
+
       a {
         display: block;
         margin-top: 20px;
-        color: #d9534f;
+        color: #2596be;
         text-decoration: none;
         font-weight: bold;
         text-align: center;
@@ -101,19 +123,39 @@
       form[action="/logout"] input[type="submit"] {
         margin-top: 10px;
       }
+
+      @media (max-width: 768px) {
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+
+        td,
+        th {
+          font-size: 14px;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h2>
-        Manage Products
+        Manage Books
         <form action="/logout" method="POST">
           <input type="submit" value="Logout" />
         </form>
       </h2>
+
+      <!-- Navigation Bar -->
+      <div class="nav">
+        <a href="/dashboard">Dashboard</a>
+        <a href="/orders">Orders</a>
+        <a href="/users">Users</a>
+      </div>
+
       <table>
         <tr>
-          <th>Product Name</th>
+          <th>Book Name</th>
           <th>Quantity</th>
           <th>Price</th>
           <th>Category</th>
@@ -164,6 +206,7 @@
         </tr>
         {% endfor %}
       </table>
+
       <a href="/admin_home">Back to Admin Home</a>
     </div>
   </body>
