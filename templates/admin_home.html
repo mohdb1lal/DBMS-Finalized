@@ -4,7 +4,132 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Home</title>
-    <link rel="stylesheet" href="/static/css/admin_home.css" />
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f0f8ff;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        color: #333;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      .header {
+        background-color: #2596be;
+        padding: 20px;
+        color: #fff;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        margin: 0;
+      }
+
+      .buttons {
+        margin-top: 20px;
+      }
+
+      .buttons button,
+      .buttons input[type="submit"] {
+        background-color: #fff;
+        color: #2596be;
+        border: 2px solid #2596be;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .buttons button:hover,
+      .buttons input[type="submit"]:hover {
+        background-color: #2596be;
+        color: #fff;
+      }
+
+      p {
+        font-size: 20px;
+        color: #333;
+      }
+
+      a {
+        display: block;
+        margin: 20px 0;
+        font-size: 18px;
+        color: #2596be;
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      a:hover {
+        color: #007b9e;
+      }
+
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        margin: 20px auto;
+      }
+
+      label {
+        display: block;
+        font-size: 16px;
+        color: #333;
+        margin: 10px 0 5px;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 15px;
+      }
+
+      input[type="submit"] {
+        background-color: #2596be;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #007b9e;
+      }
+
+      .file-input-wrapper {
+        text-align: left;
+      }
+
+      .file-input {
+        display: inline-block;
+        cursor: pointer;
+        color: #2596be;
+        font-weight: bold;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .file-input input[type="file"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
