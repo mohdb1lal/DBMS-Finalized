@@ -1,0 +1,5 @@
+```plaintext
+Flask==2.3.2
+pymongo==4.5.0
+Werkzeug==2.3.2
+bson==0.5.10

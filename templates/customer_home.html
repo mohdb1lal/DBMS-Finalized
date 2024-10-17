@@ -7,7 +7,7 @@
     <style>
       body {
         font-family: "Arial", sans-serif;
-        background-color: #fff;
+        background-color: #f0f8ff; /* Light background to complement the blue theme */
         margin: 0;
         padding: 0;
         text-align: center;
@@ -17,8 +17,9 @@
       #button-container {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 10px;
-        background-color: #d9534f; /* Red */
+        background-color: #2596be; /* Eastern Blue theme */
         color: #fff;
       }
 
@@ -26,45 +27,30 @@
         margin: 0;
       }
 
-      h2,
-      p {
-        margin: 20px 0;
-        color: #ffffff; /* Red */
+      h2 {
+        margin: 0;
+        color: #fff;
       }
 
       #product-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center; /* Center the items */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        justify-content: center;
         margin: 20px;
       }
 
       .product {
-        border: 2px solid #ccc;
+        border: 2px solid #2596be; /* Border matching the theme color */
         border-radius: 5px;
         padding: 15px;
-        margin: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        width: 250px;
-        height: auto;
-        cursor: pointer;
         background-color: #fff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s;
       }
 
-      .product h3 {
-        color: #333;
-        margin: 15px 0;
-        font-size: 20px;
-      }
-
-      .product p {
-        color: #777;
-        margin: 5px 0;
+      .product:hover {
+        transform: scale(1.05);
       }
 
       .product img {
@@ -75,28 +61,40 @@
         margin-bottom: 10px;
       }
 
-      .product:hover {
-        transform: scale(1.05);
+      .product h3 {
+        color: #2596be; /* Text color matching the theme */
+        font-size: 20px;
+        margin: 10px 0;
+      }
+
+      .product p {
+        color: #555; /* Subtle dark grey for pricing */
+        margin: 5px 0;
       }
 
       .add-to-cart {
-        background-color: #d9534f; /* Red */
+        background-color: #2596be; /* Button matching the theme */
         color: #fff;
         border: none;
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
         font-size: 16px;
-        margin-top: auto; /* Align at the bottom */
         transition: background-color 0.3s;
       }
 
       .add-to-cart:hover {
-        background-color: #b52b27; /* Darker red */
+        background-color: #1e7ba8; /* Darker shade of Eastern Blue */
+      }
+
+      .empty-message {
+        font-size: 18px;
+        color: #777;
+        margin-top: 50px;
       }
 
       #footer {
-        background-color: #333;
+        background-color: #2596be; /* Footer with the theme color */
         color: #fff;
         padding: 10px;
         position: fixed;
@@ -108,20 +106,42 @@
   <body>
     <div id="button-container">
       <form action="/view_cart" method="GET">
-        <input type="submit" value="View Cart" />
+        <input
+          type="submit"
+          value="View Cart"
+          style="
+            background-color: #fff;
+            color: #2596be;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+          "
+        />
       </form>
 
       <h2>BookShelf</h2>
 
       <form action="/logout" method="POST">
-        <input type="submit" value="Logout" />
+        <input
+          type="submit"
+          value="Logout"
+          style="
+            background-color: #fff;
+            color: #2596be;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+          "
+        />
       </form>
     </div>
 
     <p>Customer Dashboard</p>
 
     <div id="product-container">
-      {% for product in products %}
+      {% if products %} {% for product in products %}
       <div class="product">
         <img src="{{ product.image }}" alt="{{ product.name }}" />
         <h3>{{ product.name }}</h3>
@@ -134,7 +154,9 @@
           Add to Cart
         </button>
       </div>
-      {% endfor %}
+      {% endfor %} {% else %}
+      <p class="empty-message">No books available for sale at the moment.</p>
+      {% endif %}
     </div>
 
     <div id="footer">www.bookshelf.com</div>
@@ -145,13 +167,12 @@
         event.preventDefault();
         var productName = $(this).data("product-name");
         var productPrice = $(this).data("product-price");
-        console.log("Adding to cart:", productName, productPrice);
 
         $.ajax({
           type: "POST",
           url: "/add_to_cart",
           data: { product_name: productName, product_price: productPrice },
-          success: function (data) {
+          success: function () {
             alert("Product added to cart!");
           },
           error: function (error) {
@@ -159,27 +180,6 @@
           },
         });
       });
-      // Function to toggle the visibility of the footer based on scroll position
-      function toggleFooterVisibility() {
-        var scrollPosition = window.scrollY;
-        var windowHeight = window.innerHeight;
-        var documentHeight = document.body.offsetHeight;
-
-        // Check if the user has reached the bottom of the page
-        if (scrollPosition + windowHeight >= documentHeight) {
-          $("#footer").slideDown();
-        } else {
-          $("#footer").slideUp();
-        }
-      }
-
-      // Attach the toggle function to the scroll event
-      $(window).scroll(function () {
-        toggleFooterVisibility();
-      });
-
-      // Initial check for visibility on page load
-      toggleFooterVisibility();
     </script>
   </body>
 </html>
