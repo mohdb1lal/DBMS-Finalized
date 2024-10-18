@@ -113,13 +113,3 @@ If MongoDB is not running, start it using:
 ```bash
 brew services start mongodb/brew/mongodb-community@6.0
 ```
-
----
-
-With these instructions, you can set up MongoDB and the Python environment for the Flask application. Let me know if you'd like any further adjustments!
-
-```
-
----
-
-```
