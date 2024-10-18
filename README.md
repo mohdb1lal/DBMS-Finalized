@@ -4,6 +4,19 @@ This project uses MongoDB as the database along with Flask as the web framework.
 
 ---
 
+![admin_home.html](static/designs/admin_home.png)
+![admin_orders.html](static/designs/admin_orders.png)
+![cart.html](static/designs/cart.png)
+![customer_details.html](static/designs/customer_details.png)
+![customer_home.html](static/designs/customer_home.png)
+![Login Page](static/designs/Login Page.png)
+![login_selection.html](static/designs/login_selection.png)
+![manage_product.html](static/designs/manage_product.png)
+![placed_orders.html](static/designs/placed_orders.png)
+![Sign up](static/designs/Sign up.png)
+
+---
+
 ## Installation Instructions
 
 ### 1. Install MongoDB on macOS
@@ -20,6 +33,7 @@ Start MongoDB as a background service using Homebrew:
 
 ```bash
 brew services start mongodb/brew/mongodb-community@6.0
+brew services start mongodb/brew/mongodb-community
 ````
 
 You can check the status of the service using:
@@ -104,17 +118,8 @@ brew services start mongodb/brew/mongodb-community@6.0
 
 With these instructions, you can set up MongoDB and the Python environment for the Flask application. Let me know if you'd like any further adjustments!
 
-````
+```
 
 ---
 
-### **requirements.txt**
-
-```plaintext
-Flask==2.3.2
-pymongo==4.5.0
-Werkzeug==2.3.2
-bson==0.5.10
-````
-
----
+```
