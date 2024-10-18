@@ -9,11 +9,11 @@ This project uses MongoDB as the database along with Flask as the web framework.
 ![cart.html](static/designs/cart.png)
 ![customer_details.html](static/designs/customer_details.png)
 ![customer_home.html](static/designs/customer_home.png)
-![Login Page](static/designs/Login-Page.png)
+![Login Page](static/designs/Login_Page.png)
 ![login_selection.html](static/designs/login_selection.png)
 ![manage_product.html](static/designs/manage_product.png)
 ![placed_orders.html](static/designs/placed_orders.png)
-![Sign up](static/designs/Sign-up.png)
+![Sign up](static/designs/Sign_up.png)
 
 ---
 
